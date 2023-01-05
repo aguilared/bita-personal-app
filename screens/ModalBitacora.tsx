@@ -1,7 +1,6 @@
-import { StyleSheet, ScrollView, Keyboard } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 
 import {
-  Divider,
   Surface,
   Subheading,
   Button,
@@ -12,14 +11,9 @@ import {
 } from "react-native-paper";
 import { Text, View } from "../components/Themed";
 import overlay from "./overlay";
-
 import { useForm, Controller } from "react-hook-form";
-
-import HTMLView from "react-native-htmlview";
-
 import dayjs from "dayjs";
-import React, { useContext, useEffect } from "react";
-
+import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Constants from "expo-constants";
 import { AppConfig } from "../app.config";
@@ -41,19 +35,14 @@ interface IFormInputs {
   numberInput: string;
 }
 
-const convertDate = (date: string) => {
-  const d = dayjs(date).format("DD-MM-YYYY HH:MM");
-  return d;
-};
 const convertDate1 = (date: string) => {
   const d = dayjs(date).format("DD-MM-YYYY HH:MM");
   return d;
 };
 export default function ModalBitacoraAdd(propss: Props) {
-  const clonedObj = { ...propss.route.params };
-  const bitaEvents = { ...clonedObj, ...propss };
+  //console.log("Props", propss);
+
   const navigation = useNavigation();
-  //console.log("bitaEvents", bitaEvents);
   const theme = useTheme();
   const backgroundColor = overlay(1, theme.colors.surface) as string;
   console.log("ColorBackgron", backgroundColor);
@@ -69,13 +58,11 @@ export default function ModalBitacoraAdd(propss: Props) {
 
   const {
     control,
-    register,
     formState: { errors },
     handleSubmit,
   } = useForm<FormData>();
 
   const date1 = new Date();
-  const titulo = "Evento Id: " + bitaEvents.id;
   console.log("DATE", date1);
   const convertDate1 = (dateTo: any) => {
     const d = dayjs(dateTo).format("YYYY/MM/DD hh:mm");
@@ -91,7 +78,7 @@ export default function ModalBitacoraAdd(propss: Props) {
   console.log("ENDPOINT", ENDPOINT);
 
   const onSubmit = async (dataE: any) => {
-    console.log("DATAE", dataE);
+    //console.log("DATAE", dataE);
     try {
       const dataEE = {
         author_id: Number(dataE.author_id),
@@ -105,9 +92,9 @@ export default function ModalBitacoraAdd(propss: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataEE),
       });
-      console.log("RESULT", result);
+      //console.log("RESULT", result);
       const data = await result.json();
-      console.log("DATA", data);
+      //console.log("DATA", data);
       // refetch();
       setVisible1(false);
       setTimeout(() => {
@@ -123,52 +110,6 @@ export default function ModalBitacoraAdd(propss: Props) {
 
   return (
     <Surface style={styles.container}>
-      <ScrollView>
-        <View style={styles.topRow}>
-          <View>
-            <Subheading style={styles.title}>{titulo}</Subheading>
-
-            <Subheading style={styles.label}>
-              <Button
-                dark
-                color="green"
-                icon="file-document-edit-outline"
-                mode="contained"
-                onPress={() => {
-                  Keyboard.dismiss();
-                  showDialog1();
-                }}
-              >
-                Add
-              </Button>
-              {"  "}
-              <Button
-                dark
-                color="red"
-                icon="delete-alert"
-                background-color="gray"
-                mode="contained"
-                onPress={() => {
-                  Keyboard.dismiss();
-                  showDialog();
-                }}
-              >
-                Delete
-              </Button>
-            </Subheading>
-          </View>
-        </View>
-        <Divider style={{ backgroundColor: "gray" }} />
-        <Subheading style={styles.label}>
-          Fecha: {convertDate(bitaEvents.event_date)}
-        </Subheading>
-        <Subheading style={styles.label}>
-          TipoEvent: {bitaEvents.tipoevent}
-        </Subheading>
-        <Subheading style={styles.label}>Event: {bitaEvents.event}</Subheading>
-        <HTMLView value={bitaEvents.description} stylesheet={styless} />
-        <Divider style={{ backgroundColor: "gray" }} />
-      </ScrollView>
       <View>
         <Portal>
           <Dialog

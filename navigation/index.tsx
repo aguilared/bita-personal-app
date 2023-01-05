@@ -17,10 +17,15 @@ import { ColorSchemeName, Pressable } from "react-native";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import ModalScreen from "../screens/ModalScreen";
+import ModalBitacora from "../screens/ModalBitacora";
+import ModalEvent from "../screens/ModalEvent";
+import ModalBitaEventsAdd from "../screens/ModalBitaEventsAdd";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
 import Bitacoras from "../screens/Bitacoras";
+import Drop from "../screens/Drop";
+import Drop1 from "../screens/Drop1";
 
 import {
   RootStackParamList,
@@ -66,6 +71,18 @@ function RootNavigator() {
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="ModalEvent" component={ModalEvent} />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen name="ModalBitacora" component={ModalBitacora} />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
+        <Stack.Screen
+          name="ModalBitaEventsAdd"
+          component={ModalBitaEventsAdd}
+        />
+      </Stack.Group>
     </Stack.Navigator>
   );
 }
@@ -83,7 +100,19 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="Bitacoras"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        headerStyle: {
+          borderRadius: 3,
+          backgroundColor: "#0067b1",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        headerShown: true,
+        tabBarShowLabel: false,
+        tabBarStyle: { backgroundColor: "#E04473", borderRadius: 3 },
+        tabBarInactiveTintColor: "#fff",
+        tabBarActiveTintColor: "yellow",
       }}
     >
       <BottomTab.Screen
@@ -91,7 +120,7 @@ function BottomTabNavigator() {
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
           title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Modal")}
@@ -114,15 +143,48 @@ function BottomTabNavigator() {
         component={TabTwoScreen}
         options={{
           title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="key" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Bitacoras"
         component={Bitacoras}
-        options={{
+        options={({ navigation }: RootTabScreenProps<"Bitacoras">) => ({
           title: "Bitacoras",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="history" color={color} />
+          ),
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate("ModalBitacora")}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <FontAwesome
+                name="plus"
+                size={25}
+                color={"white"}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
+        })}
+      />
+      <BottomTab.Screen
+        name="Drop"
+        component={Drop}
+        options={{
+          title: "Drop",
+          tabBarIcon: ({ color }) => <TabBarIcon name="key" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Drop1"
+        component={Drop1}
+        options={{
+          title: "Drop1",
+          tabBarIcon: ({ color }) => <TabBarIcon name="key" color={color} />,
         }}
       />
     </BottomTab.Navigator>

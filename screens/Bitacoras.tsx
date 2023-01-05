@@ -1,9 +1,6 @@
 import {
   StyleSheet,
-  FlatList,
   ActivityIndicator,
-  ScrollView,
-  Keyboard,
   Platform,
   Image,
 } from "react-native";
@@ -260,8 +257,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    marginRight: 10,
-    marginLeft: 10,
+    marginRight: 3,
+    marginLeft: 3,
   },
   title: {
     marginTop: 5,
