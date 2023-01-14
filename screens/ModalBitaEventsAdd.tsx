@@ -102,7 +102,8 @@ export default function ModalBitaEventsAdd(Routes: Props) {
 
   const [eventId, setEventId] = useState("");
   const { eventsId } = useEventsId(eventId);
-  const [event, setEvent] = useState("");
+
+  const [eventssId, setEventssId] = useState("");
 
   //console.log("EVENTSOFTYPPE", eventsId);
 
@@ -129,11 +130,6 @@ export default function ModalBitaEventsAdd(Routes: Props) {
         event_date: new Date(dataE.event_date),
       };
       console.log("DATAEE", dataEE);
-      // https://bita-personal-api.vercel.app/api/
-      //  http://192.168.1.99:3000/api/  lenovo
-      //  http://192.168.1.30:3000/api/  pc de la sala
-      // http://localhost:3000/
-      // "http://192.168.1.30:3000/api/bitacora/events/create",
       const ENDPOINT = API_URL + "bitacora/events/create";
       console.log("ENDPOINT", ENDPOINT);
       const result = await fetch(ENDPOINT, {
@@ -152,6 +148,13 @@ export default function ModalBitaEventsAdd(Routes: Props) {
     }
   };
 
+  const handleOnChange = (bitacoraKey, value) => {
+    console.log("Selectedtipo_event_id", value);
+  };
+  const handleOnChange1 = (bitacoraKey, value) => {
+    console.log("SelectedtEvents_id", value);
+  };
+
   return (
     <Surface style={styles.container}>
       <View>
@@ -162,7 +165,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
             style={{ backgroundColor }}
           >
             <Dialog.Title style={styles.title}>
-              Add event to Bitacora ID: {bitaEvents.bitacora_id}
+              Add Event to Bitacora Id: {bitaEvents.bitacora_id}
             </Dialog.Title>
             <Dialog.ScrollArea style={{ maxHeight: 450, paddingHorizontal: 0 }}>
               <ScrollView>
@@ -182,26 +185,6 @@ export default function ModalBitaEventsAdd(Routes: Props) {
                     )}
                   />
                   {errors.id && <Text>This is required.</Text>}
-                </View>
-
-                <View style={styles.inputContainerStyle}>
-                  <Controller
-                    name="tipo_event_id"
-                    control={control}
-                    defaultValue={""}
-                    render={({ field: { onChange, onBlur, value, ref } }) => (
-                      <TextInput
-                        label="TipoEventID"
-                        testID="input"
-                        mode="outlined"
-                        onBlur={onBlur}
-                        value={value}
-                        onChangeText={(value) => onChange(value)}
-                        ref={ref}
-                      />
-                    )}
-                  />
-                  {errors.tipo_event_id && <Text>This is required.</Text>}
                 </View>
 
                 <View style={styles.inputContainerStyle}>
@@ -234,8 +217,8 @@ export default function ModalBitaEventsAdd(Routes: Props) {
                           setValue(item.value);
                           setIsFocus(false);
                           setEventId(item.value);
+                          handleOnChange("tipo_event_idSelect", item.value);
                         }}
-                        ref={ref}
                         renderLeftIcon={() => (
                           <FontAwesome
                             style={stylesss.icon}
@@ -252,12 +235,12 @@ export default function ModalBitaEventsAdd(Routes: Props) {
 
                 <View style={styles.inputContainerStyle}>
                   <Controller
-                    name="events_id"
+                    name="tipo_event_id"
                     control={control}
-                    defaultValue={""}
+                    defaultValue={String(eventId)}
                     render={({ field: { onChange, onBlur, value, ref } }) => (
                       <TextInput
-                        label="EventsID"
+                        label="TipoEventID"
                         testID="input"
                         mode="outlined"
                         onBlur={onBlur}
@@ -267,7 +250,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
                       />
                     )}
                   />
-                  {errors.events_id && <Text>This is required.</Text>}
+                  {errors.tipo_event_id && <Text>This is required.</Text>}
                 </View>
 
                 <View style={stylesss.container}>
@@ -296,10 +279,12 @@ export default function ModalBitaEventsAdd(Routes: Props) {
                         value={value}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
-                        onChange={(value) => {
-                          setEvent(value);
+                        onChange={(item) => {
+                          setValue(item.value);
+                          setEventssId(item.value);
+                          setIsFocus(false);
+                          handleOnChange1("SelectedEvents_id", item.value);
                         }}
-                        ref={ref}
                         renderLeftIcon={() => (
                           <FontAwesome
                             style={stylesss.icon}
@@ -308,6 +293,26 @@ export default function ModalBitaEventsAdd(Routes: Props) {
                             size={scale(20)}
                           />
                         )}
+                      />
+                    )}
+                  />
+                  {errors.events_id && <Text>This is required.</Text>}
+                </View>
+
+                <View style={styles.inputContainerStyle}>
+                  <Controller
+                    name="events_id"
+                    control={control}
+                    defaultValue={String(eventssId)}
+                    render={({ field: { onChange, onBlur, value, ref } }) => (
+                      <TextInput
+                        label="EventsID"
+                        testID="input"
+                        mode="outlined"
+                        onBlur={onBlur}
+                        value={value}
+                        onChangeText={(value) => onChange(value)}
+                        ref={ref}
                       />
                     )}
                   />
@@ -416,7 +421,7 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     paddingVertical: 5,
     marginLeft: 5,
-    fontSize: 19,
+    fontSize: 16,
     fontWeight: "bold",
   },
   title1: {

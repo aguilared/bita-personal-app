@@ -71,7 +71,7 @@ function onAppStateChange(status: AppStateStatus) {
   }
 }
 
-export default function Bitacoras<T>() {
+export default function BitacorasList<T>() {
   useAppState({
     onChange: onAppStateChange,
   });
@@ -85,24 +85,18 @@ export default function Bitacoras<T>() {
   const [tipoevent, setTipoevent] = useState("");
   const [description, setDescription] = useState("");
 
-  //const ENDPOINT = "http://192.168.0.183:3000/api/bitacora/events";
-  //const ENDPOINT = "http://192.168.1.30:3000/api/bitacora/events";
-  //const BASE_URL_API = "http://192.168.1.99:3000/api/";
-  //const BASE_URL_IMAGES = "http://192.168.1.102:3000/static/images/";
-  //const BASE_URL_IMAGES = "https://bita-personal-api.vercel.app/static/images/";
-  //const ENDPOINT = "https://bita-personaaal-api.vercel.app/api/bitacoras/events";
-  //const BASE_URL_API = "https://bita-personal-api.vercel.app/api/";
-  const ENDPOINT = API_URL + "bitacora/events";
+  const ENDPOINT = API_URL + "bitacora";
   //console.log("ENDPOINT", ENDPOINT);
 
   const { status, data, error, isLoading, refetch } = useQuery(
-    ["bitacoras"],
+    ["bitacorasList"],
     async () => {
       const res = await axios.get(`${ENDPOINT}`);
       //console.log("DATA1", res);
       return res.data;
     }
   );
+  //console.log("DATA1", data);
 
   const enabledRef = useRef(false);
   useFocusEffect(
@@ -115,20 +109,9 @@ export default function Bitacoras<T>() {
     }, [refetch])
   );
   const dates: any = new Date();
-  const titulo = "Eventos al: " + convertDate(dates);
+  const titulo = "Biacoras al: " + convertDate(dates);
   const navigation = useNavigation();
-  //console.log("Bitacoras Data", data);
-
-  const [visible, setVisible] = React.useState(false);
-  const [visible1, setVisible1] = React.useState(false);
-
-  const showDialog = () => setVisible(true);
-  const showDialog1 = () => setVisible1(true);
-
-  const hideDialog = () => setVisible(false);
-  const hideDialog1 = () => setVisible1(false);
-  const theme = useTheme();
-  const backgroundColor = overlay(1, theme.colors.surface) as string;
+  console.log("Bitacoras Data", data);
 
   const {
     control,
@@ -149,78 +132,23 @@ export default function Bitacoras<T>() {
         <FlashList
           data={data}
           renderItem={({ item }) => (
-            <List.Section
-              style={{
-                marginTop: 5,
-                marginLeft: 5,
-                marginRight: 5,
-              }}
-            >
-              <Appbar.Header style={styles.header}>
-                <Appbar.Content
-                  titleStyle={styles.header}
-                  title={`Id:${item.id}`}
-                />
-                <Appbar.Action
-                  icon="pencil"
-                  onPress={() =>
-                    navigation.navigate("ModalEvent", {
-                      id: item.id,
-                      bitacora_id: item.bitacora_id,
-                      event_date: item.event_date,
-                      tipo_event_id: item.tipo_event_id,
-                      events_id: item.events_id,
-                      event: item.event.description,
-                      tipoevent: item.tipoEvent.description,
-                      description: item.description,
-                    })
-                  }
-                />
-                <Appbar.Action icon="delete" onPress={() => alert("Search")} />
-                <Appbar.Action
-                  icon="plus"
-                  onPress={() =>
-                    navigation.navigate("ModalBitaEventsAdd", {
-                      id: item.id,
-                      bitacora_id: item.bitacora_id,
-                      event_date: item.event_date,
-                      tipo_event_id: item.tipo_event_id,
-                      events_id: item.events_id,
-                      event: item.event.description,
-                      tipoevent: item.tipoEvent.description,
-                      description: item.description,
-                    })
-                  }
-                />
-              </Appbar.Header>
-              <Text
-                style={styles.title1}
-              >{`BitacoraId: ${item.bitacora_id}`}</Text>
-              <Text style={styles.title1}>{`Date: ${convertDate(
-                item.event_date
-              )}`}</Text>
-
-              <Text
-                style={styles.title1}
-              >{`Tipo Evento: ${item.tipo_event_id} ${item.tipoEvent.description}`}</Text>
-              <Text
-                style={styles.title1}
-              >{`Evento: ${item.events_id} ${item.event.description}`}</Text>
-              <HTMLView
-                value={`Description: ${item.description}`}
-                stylesheet={styles.p}
+            <List.Section>
+              <List.Item
+                title={`Id:${item.id}, Events:${item._count.bita_events}`}
               />
-
-              <Image
-                source={{ uri: BASE_URL_IMAGES + `${item.id}` + ".jpg" }}
-                style={[
-                  styles.image,
-                  {
-                    borderColor: "gray",
-                  },
-                ]}
+              <List.Item title={`Date:${convertDate(item.bitacora_date)}`} />
+              <List.Item title={`Author:${item.author.name}`} />
+              <Appbar.Action
+                icon="plus"
+                onPress={() =>
+                  navigation.navigate("ModalBitacoraId", {
+                    id: item.id,
+                    author_id: item.author_id,
+                    bitacora_date: item.bitacora_date,
+                    eventos: item._count.bita_events,
+                  })
+                }
               />
-
               <Divider style={{ backgroundColor: "gray", marginTop: 30 }} />
             </List.Section>
           )}
@@ -236,7 +164,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "#D5DBDB",
     height: 30,
-    fontSize: 18,
+    fontSize: 16,
   },
   a: {
     fontWeight: "bold",

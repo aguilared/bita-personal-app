@@ -21,6 +21,7 @@ export type RootStackParamList = {
   Modal: undefined;
   NotFound: undefined;
   ModalBitacora: [author_id: number, bitacora_date: string];
+  ModalBitacoraId: [id: number, author_id: number, bitacora_date: string];
   ModalBitaEventsAdd: [
     bitacora_id: number,
     tipo_event_id: number,
@@ -48,7 +49,9 @@ export type RootTabParamList = {
   TabOne: undefined;
   TabTwo: undefined;
   Bitacoras: undefined;
+  BitacorasList: undefined;
   ModalBitacora: [author_id: number, bitacora_date: string];
+  ModalBitacoraId: [author_id: number, bitacora_date: string];
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

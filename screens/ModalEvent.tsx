@@ -1,7 +1,8 @@
-import { ScrollView } from "react-native";
+import { ScrollView, Keyboard } from "react-native";
 import { StyleSheet, scale } from "react-native-size-scaling";
 
 import {
+  Divider,
   Surface,
   Subheading,
   Button,
@@ -14,6 +15,8 @@ import { Text, View } from "../components/Themed";
 import overlay from "./overlay";
 
 import { useForm, Controller } from "react-hook-form";
+
+import HTMLView from "react-native-htmlview";
 
 import dayjs from "dayjs";
 import React, { useContext, useEffect, useState } from "react";
@@ -56,6 +59,10 @@ interface IFormInputs {
   numberInput: string;
 }
 
+const convertDate = (date: string) => {
+  const d = dayjs(date).format("DD-MM-YYYY HH:MM");
+  return d;
+};
 const convertDate1 = (date: string) => {
   const d = dayjs(date).format("DD-MM-YYYY HH:MM");
   return d;
@@ -66,7 +73,7 @@ export default function ModalEvent(Routes: Props) {
   console.log("Routes", Routes);
 
   const clonedObj = { ...Routes.route.params };
-  const bitaEvents = { ...Routes.route.params9 };
+  const bitaEvents = { ...Routes.route.params };
   const navigation = useNavigation();
   console.log("bitaEvents", bitaEvents);
   const theme = useTheme();
@@ -156,7 +163,7 @@ export default function ModalEvent(Routes: Props) {
             style={{ backgroundColor }}
           >
             <Dialog.Title style={styles.title}>
-              Edit Actividadd: {bitaEvents.biacoraid}
+              Edit Actividadd: {bitaEvents.bitacora_id}
             </Dialog.Title>
             <Dialog.ScrollArea style={{ maxHeight: 450, paddingHorizontal: 0 }}>
               <ScrollView>

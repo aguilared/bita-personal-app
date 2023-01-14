@@ -47,6 +47,21 @@ const convertDate = (date: string) => {
   const d = dayjs(date).format("DD-MM-YYYY HH:MM");
   return d;
 };
+const convertDate1 = (date: string) => {
+  const d = dayjs(date).format("DD-MM-YY");
+  return d;
+};
+
+type Props = {
+  id: number;
+  bitacora_id: number;
+  tipo_event_id: number;
+  events_id: number;
+  event_date: string;
+  event: string;
+  tipoevent: string;
+  description: string;
+};
 
 type FormData = {
   id: number;
@@ -71,29 +86,19 @@ function onAppStateChange(status: AppStateStatus) {
   }
 }
 
-export default function Bitacoras<T>() {
+export default function ModalBitacoraId(Routes: Props) {
+  const clonedObj = { ...Routes.route.params };
+  const bitacoraID = { ...Routes.route.params };
+  console.log("Bitacora", bitacoraID);
+  console.log("BitacoraI", bitacoraID.id);
+  const navigation = useNavigation();
+
   useAppState({
     onChange: onAppStateChange,
   });
 
-  const [id, setId] = useState("");
-  const [bitacora_id, setBitacora_id] = useState("");
-  const [tipo_event_id, setTipo_event_id] = useState("");
-  const [events_id, setEvents_id] = useState("");
-  const [event_date, setEvent_date] = useState("");
-  const [event, setEvent] = useState("");
-  const [tipoevent, setTipoevent] = useState("");
-  const [description, setDescription] = useState("");
-
-  //const ENDPOINT = "http://192.168.0.183:3000/api/bitacora/events";
-  //const ENDPOINT = "http://192.168.1.30:3000/api/bitacora/events";
-  //const BASE_URL_API = "http://192.168.1.99:3000/api/";
-  //const BASE_URL_IMAGES = "http://192.168.1.102:3000/static/images/";
-  //const BASE_URL_IMAGES = "https://bita-personal-api.vercel.app/static/images/";
-  //const ENDPOINT = "https://bita-personaaal-api.vercel.app/api/bitacoras/events";
-  //const BASE_URL_API = "https://bita-personal-api.vercel.app/api/";
-  const ENDPOINT = API_URL + "bitacora/events";
-  //console.log("ENDPOINT", ENDPOINT);
+  const ENDPOINT = API_URL + "bitacora/events/" + bitacoraID.id;
+  console.log("ENDPOINT", ENDPOINT);
 
   const { status, data, error, isLoading, refetch } = useQuery(
     ["bitacoras"],
@@ -115,8 +120,13 @@ export default function Bitacoras<T>() {
     }, [refetch])
   );
   const dates: any = new Date();
-  const titulo = "Eventos al: " + convertDate(dates);
-  const navigation = useNavigation();
+  const titulo =
+    "Bitacora Id: " +
+    bitacoraID.id +
+    ", " +
+    convertDate1(bitacoraID.bitacora_date) +
+    ", Eventos: " +
+    bitacoraID.eventos;
   //console.log("Bitacoras Data", data);
 
   const [visible, setVisible] = React.useState(false);
@@ -193,9 +203,7 @@ export default function Bitacoras<T>() {
                   }
                 />
               </Appbar.Header>
-              <Text
-                style={styles.title1}
-              >{`BitacoraId: ${item.bitacora_id}`}</Text>
+
               <Text style={styles.title1}>{`Date: ${convertDate(
                 item.event_date
               )}`}</Text>

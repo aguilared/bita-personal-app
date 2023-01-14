@@ -78,11 +78,11 @@ export default function ModalBitacoraAdd(propss: Props) {
   console.log("ENDPOINT", ENDPOINT);
 
   const onSubmit = async (dataE: any) => {
-    //console.log("DATAE", dataE);
+    console.log("DATAE", dataE);
     try {
       const dataEE = {
         author_id: Number(dataE.author_id),
-        bitacora_date: new Date(dataE.bitacora_date),
+        bitacora_date: dataE.bitacora_date,
       };
       // "https://bita-personal-api.vercel.app/api/bitacora/create",
       // "http://192.168.1.99:3000/api/bitacora/create",
