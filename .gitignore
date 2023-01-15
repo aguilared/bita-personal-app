@@ -12,3 +12,14 @@ web-build/
 
 # macOS
 .DS_Store
+
+
+# local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+config.js
+app.config.js
