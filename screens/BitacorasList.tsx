@@ -109,9 +109,9 @@ export default function BitacorasList<T>() {
     }, [refetch])
   );
   const dates: any = new Date();
-  const titulo = "Biacoras al: " + convertDate(dates);
+  const titulo = "Bitacoras al: " + convertDate(dates);
   const navigation = useNavigation();
-  console.log("Bitacoras Data", data);
+  //console.log("Bitacoras Data", data);
 
   const {
     control,
@@ -134,12 +134,6 @@ export default function BitacorasList<T>() {
           renderItem={({ item }) => (
             <List.Section>
               <List.Item
-                title={`Id:${item.id}, Events:${item._count.bita_events}`}
-              />
-              <List.Item title={`Date:${convertDate(item.bitacora_date)}`} />
-              <List.Item title={`Author:${item.author.name}`} />
-              <Appbar.Action
-                icon="plus"
                 onPress={() =>
                   navigation.navigate("ModalBitacoraId", {
                     id: item.id,
@@ -148,7 +142,11 @@ export default function BitacorasList<T>() {
                     eventos: item._count.bita_events,
                   })
                 }
+                title={`Id:${item.id}, Events:${item._count.bita_events}`}
+                left={() => <List.Icon icon="folder" />}
               />
+              <List.Item title={`Date:${convertDate(item.bitacora_date)}`} />
+              <List.Item title={`Author:${item.author.name}`} />
               <Divider style={{ backgroundColor: "gray", marginTop: 30 }} />
             </List.Section>
           )}
