@@ -45,7 +45,7 @@ export default function ModalBitacoraAdd(propss: Props) {
   const navigation = useNavigation();
   const theme = useTheme();
   const backgroundColor = overlay(1, theme.colors.surface) as string;
-  console.log("ColorBackgron", backgroundColor);
+  //console.log("ColorBackgron", backgroundColor);
   const [visible, setVisible] = React.useState(false);
   const [visible1, setVisible1] = React.useState(false);
 
@@ -63,22 +63,22 @@ export default function ModalBitacoraAdd(propss: Props) {
   } = useForm<FormData>();
 
   const date1 = new Date();
-  console.log("DATE", date1);
+  //console.log("DATE", date1);
   const convertDate1 = (dateTo: any) => {
     const d = dayjs(dateTo).format("YYYY/MM/DD hh:mm");
     return d;
   };
   const date = convertDate1(date1);
-  console.log("DATE", date);
+  //console.log("DATE", date);
 
   useEffect(() => {
     setVisible1(true);
   }, [setVisible1]);
   const ENDPOINT = API_URL + "bitacora/create";
-  console.log("ENDPOINT", ENDPOINT);
+  //console.log("ENDPOINT", ENDPOINT);
 
   const onSubmit = async (dataE: any) => {
-    console.log("DATAE", dataE);
+    //console.log("DATAE", dataE);
     try {
       const dataEE = {
         author_id: Number(dataE.author_id),

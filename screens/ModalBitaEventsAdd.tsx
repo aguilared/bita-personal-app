@@ -120,7 +120,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
   }, [setVisible1]);
 
   const onSubmit = async (dataE: any) => {
-    console.log("DATAE", dataE);
+    //console.log("DATAE", dataE);
     try {
       const dataEE = {
         bitacora_id: Number(dataE.bitacora_id),
@@ -129,15 +129,15 @@ export default function ModalBitaEventsAdd(Routes: Props) {
         description: dataE.description,
         event_date: new Date(dataE.event_date),
       };
-      console.log("DATAEE", dataEE);
+      //console.log("DATAEE", dataEE);
       const ENDPOINT = API_URL + "bitacora/events/create";
-      console.log("ENDPOINT", ENDPOINT);
+      //console.log("ENDPOINT", ENDPOINT);
       const result = await fetch(ENDPOINT, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataEE),
       });
-      console.log("result", result);
+      //console.log("result", result);
       setVisible1(false);
       setTimeout(() => {
         //navigation.navigation.push('ActivitiesList');
@@ -149,10 +149,10 @@ export default function ModalBitaEventsAdd(Routes: Props) {
   };
 
   const handleOnChange = (bitacoraKey, value) => {
-    console.log("Selectedtipo_event_id", value);
+    //console.log("Selectedtipo_event_id", value);
   };
   const handleOnChange1 = (bitacoraKey, value) => {
-    console.log("SelectedtEvents_id", value);
+    //console.log("SelectedtEvents_id", value);
   };
 
   return (
