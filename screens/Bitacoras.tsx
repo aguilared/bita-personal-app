@@ -25,7 +25,7 @@ import {
 import NetInfo from "@react-native-community/netinfo";
 import useAppState from "react-native-appstate-hook";
 import { useForm, Controller } from "react-hook-form";
-import overlay from "./overlay";
+//import overlay from "./overlay";
 import { FlashList } from "@shopify/flash-list";
 import Constants from "expo-constants";
 import { AppConfig } from "../app.config";
@@ -128,7 +128,7 @@ export default function Bitacoras<T>() {
   const hideDialog = () => setVisible(false);
   const hideDialog1 = () => setVisible1(false);
   const theme = useTheme();
-  const backgroundColor = overlay(1, theme.colors.surface) as string;
+  //const backgroundColor = overlay(1, theme.colors.surface) as string;
 
   const {
     control,

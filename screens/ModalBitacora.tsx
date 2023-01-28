@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "react-native-paper";
 import { Text, View } from "../components/Themed";
-import overlay from "./overlay";
+//import overlay from "./overlay";
 import { useForm, Controller } from "react-hook-form";
 import dayjs from "dayjs";
 import React, { useEffect } from "react";
@@ -44,7 +44,7 @@ export default function ModalBitacoraAdd(propss: Props) {
 
   const navigation = useNavigation();
   const theme = useTheme();
-  const backgroundColor = overlay(1, theme.colors.surface) as string;
+  //const backgroundColor = overlay(1, theme.colors.surface) as string;
   //console.log("ColorBackgron", backgroundColor);
   const [visible, setVisible] = React.useState(false);
   const [visible1, setVisible1] = React.useState(false);
@@ -115,7 +115,7 @@ export default function ModalBitacoraAdd(propss: Props) {
           <Dialog
             visible={visible1}
             onDismiss={hideDialog1}
-            style={{ backgroundColor }}
+            style={{ backgroundColor: theme.colors.background }}
           >
             <Dialog.Title style={styles.title}>Add Bitacora</Dialog.Title>
             <Dialog.ScrollArea style={{ maxHeight: 450, paddingHorizontal: 0 }}>

@@ -77,7 +77,7 @@ export default function ModalEvent(Routes: Props) {
   const navigation = useNavigation();
   console.log("bitaEvents", bitaEvents);
   const theme = useTheme();
-  const backgroundColor = overlay(1, theme.colors.surface) as string;
+  //const backgroundColor = overlay(1, theme.colors.surface) as string;
 
   const [visible, setVisible] = React.useState(false);
   const [visible1, setVisible1] = React.useState(false);
@@ -160,7 +160,7 @@ export default function ModalEvent(Routes: Props) {
           <Dialog
             visible={visible1}
             onDismiss={hideDialog1}
-            style={{ backgroundColor }}
+            style={{ backgroundColor: theme.colors.background }}
           >
             <Dialog.Title style={styles.title}>
               Edit Actividadd: {bitaEvents.bitacora_id}

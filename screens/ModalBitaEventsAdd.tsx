@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "react-native-paper";
 import { Text, View } from "../components/Themed";
-import overlay from "./overlay";
+//import overlay from "./overlay";
 
 import { useForm, Controller } from "react-hook-form";
 
@@ -84,7 +84,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
   const navigation = useNavigation();
   //console.log("bitaEvents", bitaEvents);
   const theme = useTheme();
-  const backgroundColor = overlay(1, theme.colors.surface) as string;
+  //const backgroundColor = overlay(1, theme.colors.surface) as string;
 
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
@@ -162,7 +162,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
           <Dialog
             visible={visible1}
             onDismiss={hideDialog1}
-            style={{ backgroundColor }}
+            style={{ backgroundColor: theme.colors.background }}
           >
             <Dialog.Title style={styles.title}>
               Add Event to Bitacora Id: {bitaEvents.bitacora_id}
