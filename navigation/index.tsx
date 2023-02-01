@@ -13,6 +13,7 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName, Pressable } from "react-native";
+import { TextInput, useTheme } from "react-native-paper";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -26,6 +27,7 @@ import TabTwoScreen from "../screens/TabTwoScreen";
 import Bitacoras from "../screens/Bitacoras";
 import BitacorasList from "../screens/BitacorasList";
 import ModalBitacoraId from "../screens/ModalBitacoraId";
+import Animals from "../screens/Animals";
 
 import {
   RootStackParamList,
@@ -56,6 +58,9 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const colorScheme = useColorScheme();
+  const theme = useTheme();
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -68,22 +73,117 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      <Stack.Group
+        screenOptions={{
+          presentation: "modal",
+          tabBarStyle: {
+            backgroundColor: theme.colors.onTertiaryContainer,
+            paddingBottom: 5,
+          },
+          tabBarLabelStyle: { color: theme.colors.tertiaryContainer },
+          headerStyle: {
+            borderRadius: 3,
+            backgroundColor: "#0067b1",
+          },
+          headerTintColor: "#fff",
+
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 20,
+          },
+        }}
+      >
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      <Stack.Group
+        screenOptions={{
+          presentation: "modal",
+          tabBarStyle: {
+            backgroundColor: theme.colors.onTertiaryContainer,
+            paddingBottom: 5,
+          },
+          tabBarLabelStyle: { color: theme.colors.tertiaryContainer },
+          headerStyle: {
+            borderRadius: 3,
+            backgroundColor: "#0067b1",
+          },
+          headerTintColor: "#fff",
+
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 20,
+          },
+        }}
+      >
         <Stack.Screen name="ModalEvent" component={ModalEvent} />
       </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      <Stack.Group
+        screenOptions={{
+          presentation: "modal",
+          tabBarStyle: {
+            backgroundColor: theme.colors.onTertiaryContainer,
+            paddingBottom: 5,
+          },
+          tabBarLabelStyle: { color: theme.colors.tertiaryContainer },
+          headerStyle: {
+            borderRadius: 3,
+            backgroundColor: "#0067b1",
+          },
+          headerTintColor: "#fff",
+
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 20,
+          },
+        }}
+      >
         <Stack.Screen name="ModalBitacora" component={ModalBitacora} />
       </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      <Stack.Group
+        screenOptions={{
+          presentation: "modal",
+          tabBarStyle: {
+            backgroundColor: theme.colors.onTertiaryContainer,
+            paddingBottom: 5,
+          },
+          tabBarLabelStyle: { color: theme.colors.tertiaryContainer },
+          headerStyle: {
+            borderRadius: 3,
+            backgroundColor: "#0067b1",
+          },
+          headerTintColor: "#fff",
+
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 20,
+          },
+        }}
+      >
         <Stack.Screen
           name="ModalBitaEventsAdd"
           component={ModalBitaEventsAdd}
         />
       </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      <Stack.Group
+        screenOptions={{
+          presentation: "modal",
+          tabBarStyle: {
+            backgroundColor: theme.colors.onTertiaryContainer,
+            paddingBottom: 5,
+          },
+          tabBarLabelStyle: { color: theme.colors.tertiaryContainer },
+          headerStyle: {
+            borderRadius: 3,
+            backgroundColor: "#0067b1",
+          },
+          headerTintColor: "#fff",
+
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 20,
+          },
+        }}
+      >
         <Stack.Screen name="ModalBitacoraId" component={ModalBitacoraId} />
       </Stack.Group>
     </Stack.Navigator>
@@ -98,56 +198,51 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const theme = useTheme();
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Bitacoras"
+      initialRouteName="BitacorasList"
       screenOptions={{
+        tabBarStyle: {
+          backgroundColor: theme.colors.onTertiaryContainer,
+          paddingBottom: 5,
+        },
+        tabBarLabelStyle: { color: theme.colors.tertiaryContainer },
         headerStyle: {
           borderRadius: 3,
           backgroundColor: "#0067b1",
         },
         headerTintColor: "#fff",
+
         headerTitleStyle: {
           fontWeight: "bold",
+          fontSize: 20,
         },
-        headerShown: true,
-        tabBarShowLabel: false,
-        tabBarStyle: { backgroundColor: "#E04473", borderRadius: 3 },
-        tabBarInactiveTintColor: "#fff",
-        tabBarActiveTintColor: "yellow",
       }}
     >
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
-          title: "Tab One",
+        name="BitacorasList"
+        component={BitacorasList}
+        options={({ navigation }: RootTabScreenProps<"BitacorasList">) => ({
+          title: "BitacorasList",
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate("Modal")}
+              onPress={() => navigation.navigate("ModalBitacora")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
             >
               <FontAwesome
-                name="info-circle"
+                name="plus"
                 size={25}
-                color={Colors[colorScheme].text}
+                color={"white"}
                 style={{ marginRight: 15 }}
               />
             </Pressable>
           ),
         })}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
-        options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="key" color={color} />,
-        }}
       />
       <BottomTab.Screen
         name="Bitacoras"
@@ -175,29 +270,12 @@ function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name="BitacorasList"
-        component={BitacorasList}
-        options={({ navigation }: RootTabScreenProps<"BitacorasList">) => ({
-          title: "BitacorasList",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="history" color={color} />
-          ),
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("ModalBitacora")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome
-                name="plus"
-                size={25}
-                color={"white"}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
+        name="Animals"
+        component={Animals}
+        options={{
+          title: "Animals",
+          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+        }}
       />
     </BottomTab.Navigator>
   );

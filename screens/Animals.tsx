@@ -25,7 +25,6 @@ import {
 import NetInfo from "@react-native-community/netinfo";
 import useAppState from "react-native-appstate-hook";
 import { useForm, Controller } from "react-hook-form";
-//import overlay from "./overlay";
 import { FlashList } from "@shopify/flash-list";
 import Constants from "expo-constants";
 import { AppConfig } from "../app.config";
@@ -71,7 +70,7 @@ function onAppStateChange(status: AppStateStatus) {
   }
 }
 
-export default function Bitacoras<T>() {
+export default function Animals<T>() {
   useAppState({
     onChange: onAppStateChange,
   });
@@ -85,18 +84,11 @@ export default function Bitacoras<T>() {
   const [tipoevent, setTipoevent] = useState("");
   const [description, setDescription] = useState("");
 
-  //const ENDPOINT = "http://192.168.0.183:3000/api/bitacora/events";
-  //const ENDPOINT = "http://192.168.1.30:3000/api/bitacora/events";
-  //const BASE_URL_API = "http://192.168.1.99:3000/api/";
-  //const BASE_URL_IMAGES = "http://192.168.1.102:3000/static/images/";
-  //const BASE_URL_IMAGES = "https://bita-personal-api.vercel.app/static/images/";
-  //const ENDPOINT = "https://bita-personaaal-api.vercel.app/api/bitacoras/events";
-  //const BASE_URL_API = "https://bita-personal-api.vercel.app/api/";
-  const ENDPOINT = API_URL + "bitacora/events";
-  //console.log("ENDPOINT", ENDPOINT);
+  const ENDPOINT = API_URL + "animals";
+  console.log("ENDPOINT", ENDPOINT);
 
   const { status, data, error, isLoading, refetch } = useQuery(
-    ["bitacoras"],
+    ["animals"],
     async () => {
       const res = await axios.get(`${ENDPOINT}`);
       //console.log("DATA1", res);
@@ -115,9 +107,10 @@ export default function Bitacoras<T>() {
     }, [refetch])
   );
   const dates: any = new Date();
-  const titulo = "Eventos al: " + convertDate(dates);
+  const titulo = "Inventarios Animals : " + convertDate(dates);
+  const titulo1 = "Gonzalera Ranch";
   const navigation = useNavigation();
-  //console.log("Bitacoras Data", data);
+  //console.log("animals Data", data);
 
   const [visible, setVisible] = React.useState(false);
   const [visible1, setVisible1] = React.useState(false);
@@ -128,7 +121,6 @@ export default function Bitacoras<T>() {
   const hideDialog = () => setVisible(false);
   const hideDialog1 = () => setVisible1(false);
   const theme = useTheme();
-  //const backgroundColor = overlay(1, theme.colors.surface) as string;
 
   const {
     control,
@@ -144,6 +136,7 @@ export default function Bitacoras<T>() {
   return (
     <Surface style={styles.container}>
       <QueryClientProvider client={queryClient}>
+        <Subheading style={styles.title}>{titulo1}</Subheading>
         <Subheading style={styles.title}>{titulo}</Subheading>
         <Divider style={{ backgroundColor: "gray", marginTop: 10 }} />
         <FlashList
@@ -193,23 +186,15 @@ export default function Bitacoras<T>() {
                   }
                 />
               </Appbar.Header>
-              <Text
-                style={styles.title1}
-              >{`BitacoraId: ${item.bitacora_id}`}</Text>
-              <Text style={styles.title1}>{`Date: ${convertDate(
-                item.event_date
+              <Text style={styles.title1}>{`Animal Id: ${item.id}`}</Text>
+              <Text style={styles.title1}>{`Name: ${item.name}`}</Text>
+              <Text style={styles.title1}>{`Clase: ${item.clase_id}`}</Text>
+              <Text style={styles.title1}>{`Mother: ${item.mother}`}</Text>
+              <Text style={styles.title1}>{`Owner: ${item.owner.name}`}</Text>
+              <Text style={styles.title1}>{`Birthdate: ${convertDate(
+                item.birthdate
               )}`}</Text>
-
-              <Text
-                style={styles.title1}
-              >{`Tipo Evento: ${item.tipo_event_id} ${item.tipoEvent.description}`}</Text>
-              <Text
-                style={styles.title1}
-              >{`Evento: ${item.events_id} ${item.event.description}`}</Text>
-              <HTMLView
-                value={`Description: ${item.description}`}
-                stylesheet={styless}
-              />
+              <HTMLView value={`Infos: ${item.info}`} stylesheet={styles.p} />
 
               <Image
                 source={{ uri: BASE_URL_IMAGES + `${item.id}` + ".jpg" }}
@@ -334,18 +319,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 20,
     width: "100%",
-    height: 340,
-  },
-});
-
-const styless = StyleSheet.create({
-  a: {
-    fontWeight: "300",
-    color: "#FF3366", // make links coloured pink
-    fontSize: 18,
-  },
-  p: {
-    fontWeight: "300",
-    fontSize: 18,
+    height: 240,
   },
 });

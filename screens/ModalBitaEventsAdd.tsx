@@ -73,7 +73,7 @@ const convertDate1 = (dateTo: any) => {
 const date = convertDate1(date1);
 //console.log("DATE", date);
 export default function ModalBitaEventsAdd(Routes: Props) {
-  //console.log("Routes", Routes);
+  console.log("Routes", Routes);
   //const clonedObj = { ...route.params };
   const clonedObj = { ...Routes.route.params };
   const { bitacora_id, description } = clonedObj;
@@ -141,7 +141,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
       setVisible1(false);
       setTimeout(() => {
         //navigation.navigation.push('ActivitiesList');
-        navigation.navigate("Bitacoras");
+        navigation.navigate("BitacorasList");
       }, 600);
     } catch (error) {
       console.log(error);

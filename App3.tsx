@@ -120,8 +120,6 @@ const MaterialDarkTheme = {
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  console.log("ColorShema0", colorScheme);
-
   const theme = {
     ...DefaultTheme,
     colors: {
@@ -134,29 +132,15 @@ export default function App() {
   if (!isLoadingComplete) {
     return null;
   } else {
-    if (colorScheme === "dark") {
-      return (
-        <>
-          {" "}
-          <QueryClientProvider client={queryClient}>
-            <PaperProvider theme={MaterialDarkTheme}>
-              <Navigation colorScheme={colorScheme} />
-              <StatusBar style="auto" />
-            </PaperProvider>
-          </QueryClientProvider>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <QueryClientProvider client={queryClient}>
-            <PaperProvider theme={MaterialLightTheme}>
-              <Navigation colorScheme={colorScheme} />
-              <StatusBar style="auto" />
-            </PaperProvider>
-          </QueryClientProvider>
-        </>
-      );
-    }
+    return (
+      <QueryClientProvider client={queryClient}>
+        <PaperProvider theme={MaterialDarkTheme}>
+          <SafeAreaProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar style="auto" />
+          </SafeAreaProvider>
+        </PaperProvider>
+      </QueryClientProvider>
+    );
   }
 }

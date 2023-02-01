@@ -1,4 +1,10 @@
-import { StyleSheet, ActivityIndicator, Platform, Image } from "react-native";
+import {
+  StyleSheet,
+  ActivityIndicator,
+  Platform,
+  Image,
+  Pressable,
+} from "react-native";
 import {
   Subheading,
   Surface,
@@ -6,6 +12,7 @@ import {
   List,
   Appbar,
   useTheme,
+  Menu,
 } from "react-native-paper";
 import { Text, View } from "../components/Themed";
 import HTMLView from "react-native-htmlview";
@@ -101,7 +108,7 @@ export default function ModalBitacoraId(Routes: Props) {
   console.log("ENDPOINT", ENDPOINT);
 
   const { status, data, error, isLoading, refetch } = useQuery(
-    ["bitacoras"],
+    ["bitacorasttt"],
     async () => {
       const res = await axios.get(`${ENDPOINT}`);
       //console.log("DATA1", res);
@@ -124,9 +131,8 @@ export default function ModalBitacoraId(Routes: Props) {
     "Bitacora Id: " +
     bitacoraID.id +
     ", " +
-    convertDate1(bitacoraID.bitacora_date) +
-    ", Eventos: " +
-    bitacoraID.eventos;
+    convertDate1(bitacoraID.bitacora_date);
+  const titulo1 = "Eventos: " + bitacoraID.eventos + ",  Add+";
   //console.log("Bitacoras Data", data);
 
   const [visible, setVisible] = React.useState(false);
@@ -155,6 +161,23 @@ export default function ModalBitacoraId(Routes: Props) {
     <Surface style={styles.container}>
       <QueryClientProvider client={queryClient}>
         <Subheading style={styles.title}>{titulo}</Subheading>
+        <Subheading style={styles.subheading}>
+          <Pressable
+            style={({ pressed }) => [
+              {
+                backgroundColor: pressed ? "red" : "#b14a00",
+              },
+              styles.button,
+            ]}
+            onPress={() =>
+              navigation.navigate("ModalBitaEventsAdd", {
+                bitacora_id: bitacoraID.id,
+              })
+            }
+          >
+            <Text style={styles.title13}>{titulo1}</Text>
+          </Pressable>
+        </Subheading>
         <Divider style={{ backgroundColor: "gray", marginTop: 10 }} />
         <FlashList
           data={data}
@@ -168,7 +191,7 @@ export default function ModalBitacoraId(Routes: Props) {
             >
               <Appbar.Header style={styles.header}>
                 <Appbar.Content
-                  titleStyle={styles.header}
+                  titleStyle={styles.header3}
                   title={`Id:${item.id}`}
                 />
                 <Appbar.Action
@@ -187,21 +210,6 @@ export default function ModalBitacoraId(Routes: Props) {
                   }
                 />
                 <Appbar.Action icon="delete" onPress={() => alert("Search")} />
-                <Appbar.Action
-                  icon="plus"
-                  onPress={() =>
-                    navigation.navigate("ModalBitaEventsAdd", {
-                      id: item.id,
-                      bitacora_id: item.bitacora_id,
-                      event_date: item.event_date,
-                      tipo_event_id: item.tipo_event_id,
-                      events_id: item.events_id,
-                      event: item.event.description,
-                      tipoevent: item.tipoEvent.description,
-                      description: item.description,
-                    })
-                  }
-                />
               </Appbar.Header>
 
               <Text style={styles.title1}>{`Date: ${convertDate(
@@ -214,20 +222,22 @@ export default function ModalBitacoraId(Routes: Props) {
               <Text
                 style={styles.title1}
               >{`Evento: ${item.events_id} ${item.event.description}`}</Text>
+              {console.log("Descrition", item.description)}
               <HTMLView
                 value={`Description: ${item.description}`}
-                stylesheet={styles.p}
+                stylesheet={styless}
               />
-
-              <Image
-                source={{ uri: BASE_URL_IMAGES + `${item.id}` + ".jpg" }}
-                style={[
-                  styles.image,
-                  {
-                    borderColor: "gray",
-                  },
-                ]}
-              />
+              <View>
+                <Image
+                  source={{ uri: BASE_URL_IMAGES + `${item.id}` + ".jpg" }}
+                  style={[
+                    styles.image,
+                    {
+                      borderColor: "gray",
+                    },
+                  ]}
+                />
+              </View>
 
               <Divider style={{ backgroundColor: "gray", marginTop: 30 }} />
             </List.Section>
@@ -241,8 +251,45 @@ export default function ModalBitacoraId(Routes: Props) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    marginRight: 3,
+    marginLeft: 3,
+    justifyContent: "center",
+  },
+  container1: {
+    flex: 1,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  subheading: {
+    height: 30,
+    marginBottom: 5,
+    marginTop: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   header: {
     backgroundColor: "#D5DBDB",
+    height: 30,
+    fontSize: 18,
+    marginTop: 0,
+    borderRadius: 15,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  header3: {
+    backgroundColor: "#D5DBDB",
+    height: 30,
+    fontSize: 18,
+    marginBottom: 30,
+    marginTop: 10,
+  },
+
+  header1: {
+    backgroundColor: "#0F7694",
     height: 30,
     fontSize: 18,
   },
@@ -258,31 +305,18 @@ const styles = StyleSheet.create({
   p: {
     fontSize: 38,
   },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    marginRight: 3,
-    marginLeft: 3,
-  },
+
   title: {
     marginTop: 5,
     marginBottom: 1,
     paddingVertical: 5,
-    marginLeft: 5,
-    marginRight: 5,
-    fontSize: 14,
+    marginLeft: 0,
+    marginRight: 0,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#FFFFFF",
-    backgroundColor: "#0F7694",
+    backgroundColor: "#4d7ebe",
     borderRadius: 3,
-  },
-  title11: {
-    marginTop: 1,
-    marginBottom: 1,
-    paddingVertical: 5,
-    marginLeft: 5,
-    fontSize: 19,
-    fontWeight: "bold",
   },
   title1: {
     marginTop: 1,
@@ -291,15 +325,15 @@ const styles = StyleSheet.create({
     marginRight: 5,
     fontSize: 17,
   },
-  title3: {
+  title13: {
     marginTop: 1,
     marginBottom: 1,
-    marginLeft: 10,
+    marginLeft: 1,
     marginRight: 5,
-    paddingVertical: 5,
     fontSize: 17,
-    color: "blue",
+    color: "#FFFFFF",
   },
+
   separator: {
     marginVertical: 30,
     height: 1,
@@ -339,9 +373,33 @@ const styles = StyleSheet.create({
   },
   image: {
     borderWidth: StyleSheet.hairlineWidth,
-    marginTop: 10,
+    marginTop: 1,
+    marginBotton: 1,
     borderRadius: 20,
     width: "100%",
-    height: 240,
+    height: 340,
+  },
+  button: {
+    borderRadius: 8,
+    padding: 6,
+    height: 40,
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 5,
+  },
+});
+
+const styless = StyleSheet.create({
+  a: {
+    fontWeight: "300",
+    color: "#FF3366", // make links coloured pink
+    fontSize: 18,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  p: {
+    fontWeight: "300",
+    fontSize: 18,
   },
 });
