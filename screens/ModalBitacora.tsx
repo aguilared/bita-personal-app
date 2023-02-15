@@ -75,10 +75,10 @@ export default function ModalBitacoraAdd(propss: Props) {
     setVisible1(true);
   }, [setVisible1]);
   const ENDPOINT = API_URL + "bitacora/create";
-  //console.log("ENDPOINT", ENDPOINT);
+  console.log("ENDPOINT", ENDPOINT);
 
   const onSubmit = async (dataE: any) => {
-    //console.log("DATAE", dataE);
+    console.log("DATAE", dataE);
     try {
       const dataEE = {
         author_id: Number(dataE.author_id),
@@ -92,9 +92,9 @@ export default function ModalBitacoraAdd(propss: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataEE),
       });
-      //console.log("RESULT", result);
+      console.log("RESULT", result);
       const data = await result.json();
-      //console.log("DATA", data);
+      console.log("DATA", data);
       // refetch();
       setVisible1(false);
       setTimeout(() => {

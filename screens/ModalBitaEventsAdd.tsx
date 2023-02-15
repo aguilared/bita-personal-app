@@ -41,6 +41,7 @@ type Props = {
   event: string;
   tipoevent: string;
   description: string;
+  image: boolean;
 };
 
 type FormData = {
@@ -51,6 +52,7 @@ type FormData = {
   event: string;
   tipoevent: string;
   description: string;
+  image: boolean;
 };
 
 interface IFormInputs {
@@ -104,6 +106,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
   const { eventsId } = useEventsId(eventId);
 
   const [eventssId, setEventssId] = useState("");
+  const [isImage, setIsImage] = useState(false);
 
   //console.log("EVENTSOFTYPPE", eventsId);
 
@@ -120,7 +123,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
   }, [setVisible1]);
 
   const onSubmit = async (dataE: any) => {
-    //console.log("DATAE", dataE);
+    console.log("DATAADD", dataE);
     try {
       const dataEE = {
         bitacora_id: Number(dataE.bitacora_id),
@@ -128,16 +131,17 @@ export default function ModalBitaEventsAdd(Routes: Props) {
         events_id: Number(dataE.events_id),
         description: dataE.description,
         event_date: new Date(dataE.event_date),
+        image: isImage,
       };
-      //console.log("DATAEE", dataEE);
+      console.log("DATAADD", dataEE);
       const ENDPOINT = API_URL + "bitacora/events/create";
-      //console.log("ENDPOINT", ENDPOINT);
+      console.log("ENDPOINT", ENDPOINT);
       const result = await fetch(ENDPOINT, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataEE),
       });
-      //console.log("result", result);
+      console.log("result", result);
       setVisible1(false);
       setTimeout(() => {
         //navigation.navigation.push('ActivitiesList');
