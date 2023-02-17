@@ -105,13 +105,13 @@ export default function ModalBitacoraId(Routes: Props) {
   });
 
   const ENDPOINT = API_URL + "bitacora/events/" + bitacoraID.id;
-  console.log("ENDPOINT", ENDPOINT);
+  //console.log("ENDPOINT", ENDPOINT);
 
   const { status, data, error, isLoading, refetch } = useQuery(
     ["bitacorasttt"],
     async () => {
       const res = await axios.get(`${ENDPOINT}`);
-      //console.log("DATA1", res);
+      console.log("DATA1", res);
       return res.data;
     }
   );
@@ -222,7 +222,9 @@ export default function ModalBitacoraId(Routes: Props) {
               <Text
                 style={styles.title1}
               >{`Evento: ${item.events_id} ${item.event.description}`}</Text>
-              {console.log("Descrition", item.description)}
+              
+              <Text>Image?: {item.image ? "👍" : "👎"} </Text>
+
               <HTMLView
                 value={`Description: ${item.description}`}
                 stylesheet={styless}

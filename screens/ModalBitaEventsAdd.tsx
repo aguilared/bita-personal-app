@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, Keyboard } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 
 import {
   Divider,
@@ -9,6 +9,7 @@ import {
   Dialog,
   TextInput,
   useTheme,
+  Checkbox,
 } from "react-native-paper";
 import { Text, View } from "../components/Themed";
 //import overlay from "./overlay";
@@ -123,7 +124,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
   }, [setVisible1]);
 
   const onSubmit = async (dataE: any) => {
-    console.log("DATAADD", dataE);
+    //console.log("DATAADD", dataE);
     try {
       const dataEE = {
         bitacora_id: Number(dataE.bitacora_id),
@@ -133,7 +134,7 @@ export default function ModalBitaEventsAdd(Routes: Props) {
         event_date: new Date(dataE.event_date),
         image: isImage,
       };
-      console.log("DATAADD", dataEE);
+      //console.log("DATAADD", dataEE);
       const ENDPOINT = API_URL + "bitacora/events/create";
       console.log("ENDPOINT", ENDPOINT);
       const result = await fetch(ENDPOINT, {
@@ -363,6 +364,17 @@ export default function ModalBitaEventsAdd(Routes: Props) {
                   {errors.event_date && <Text>This is required.</Text>}
                 </View>
 
+                <View style={styles.checkboxContainer}>
+                  <Checkbox
+                    status={isImage ? "checked" : "unchecked"}
+                    onPress={() => {
+                      setIsImage(!isImage);
+                    }}
+                  />
+                  <Text style={styles.label}>Image?</Text>
+                </View>
+                <Text>Is CheckBox selected: {isImage ? "👍" : "👎"} </Text>
+
                 <View style={styles.topRow}>
                   <View>
                     <Subheading style={styles.label}>
@@ -482,6 +494,13 @@ const styles = StyleSheet.create({
   },
   inputContainerStyle: {
     margin: 8,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
   },
 });
 

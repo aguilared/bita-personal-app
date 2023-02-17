@@ -1,5 +1,4 @@
-import { ScrollView, Keyboard } from "react-native";
-import { StyleSheet, scale } from "react-native-size-scaling";
+import { StyleSheet, ScrollView, Keyboard } from "react-native";
 
 import {
   Divider,
@@ -12,23 +11,25 @@ import {
   useTheme,
 } from "react-native-paper";
 import { Text, View } from "../components/Themed";
-import overlay from "./overlay";
+//import overlay from "./overlay";
 
 import { useForm, Controller } from "react-hook-form";
 
 import HTMLView from "react-native-htmlview";
 
+import axios from "axios";
 import dayjs from "dayjs";
 import React, { useContext, useEffect, useState } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 import { Dropdown } from "react-native-element-dropdown";
+import { scale } from "react-native-size-scaling";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTypeEvents1 } from "../hooks/useTypeEvents1";
 import { useEventsId } from "../hooks/useEventsId";
-
 import Constants from "expo-constants";
 import { AppConfig } from "../app.config";
+
 const { API_TOKEN, API_URL } = Constants.manifest?.extra as AppConfig;
 
 type Props = {
@@ -44,7 +45,6 @@ type Props = {
 };
 
 type FormData = {
-  id: number;
   bitacora_id: number;
   tipo_event_id: number;
   events_id: number;
@@ -61,36 +61,42 @@ interface IFormInputs {
   numberInput: string;
 }
 
-const convertDate = (date: string) => {
-  const d = dayjs(date).format("DD-MM-YYYY HH:MM");
-  return d;
-};
-const convertDate1 = (date: string) => {
-  const d = dayjs(date).format("DD-MM-YYYY HH:MM");
+const convertDate = (dateTo: any) => {
+  const d = dayjs(dateTo).format("YYYY/MM/DD hh:mm");
   return d;
 };
 
-export default function ModalEvent(Routes: Props) {
-  //const clonedObj = route.params;
+const date1 = new Date();
+//console.log("DATE", date1);
+const convertDate1 = (dateTo: any) => {
+  const d = dayjs(dateTo).format("YYYY/MM/DD hh:mm");
+  return d;
+};
+const date = convertDate1(date1);
+//console.log("DATE", date);
+export default function ModalBitaEventsAdd(Routes: Props) {
   console.log("Routes", Routes);
-
+  //const clonedObj = { ...route.params };
   const clonedObj = { ...Routes.route.params };
-  const bitaEvents = { ...Routes.route.params };
+  const { bitacora_id, description } = clonedObj;
+  //console.log("BITACORA_ID", bitacora_id);
+
+  //const clonedObj = { ...route.params };
+  const bitaEvents = clonedObj;
   const navigation = useNavigation();
-  console.log("bitaEvents", bitaEvents);
+  //console.log("bitaEvents", bitaEvents);
   const theme = useTheme();
   //const backgroundColor = overlay(1, theme.colors.surface) as string;
 
-  const [visible, setVisible] = React.useState(false);
-  const [visible1, setVisible1] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
 
   const showDialog = () => setVisible(true);
   const showDialog1 = () => setVisible1(true);
 
   const hideDialog = () => setVisible(false);
   const hideDialog1 = () => setVisible1(false);
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { typeEvents1 } = useTypeEvents1(); //
   //console.log("TYPEVENTS", typeEvents1);
   const [value, setValue] = useState(null);
@@ -98,61 +104,59 @@ export default function ModalEvent(Routes: Props) {
 
   const [eventId, setEventId] = useState("");
   const { eventsId } = useEventsId(eventId);
-  //const { eventsId } = useEventsId(33); //
+
+  const [eventssId, setEventssId] = useState("");
+  const [isImage, setIsImage] = useState(false);
+
   //console.log("EVENTSOFTYPPE", eventsId);
 
-  const renderLabel = () => {
-    if (value || isFocus) {
-      return (
-        <Text style={[styles.label, isFocus && { color: "blue" }]}>
-          Tipo Evento
-        </Text>
-      );
-    }
-    return null;
-  };
   const {
     control,
-    register,
     formState: { errors },
     handleSubmit,
   } = useForm<FormData>();
 
-  const date = new Date();
-  const titulo = "Evento Id: " + bitaEvents.id;
+  const titulo = "ADD BitaEvent Bitacora: " + bitaEvents.bitacora_id;
+
   useEffect(() => {
     setVisible1(true);
   }, [setVisible1]);
 
   const onSubmit = async (dataE: any) => {
-    console.log("DATAE", dataE);
+    console.log("DATAADD", dataE);
     try {
       const dataEE = {
-        id: Number(dataE.id),
         bitacora_id: Number(dataE.bitacora_id),
         tipo_event_id: Number(dataE.tipo_event_id),
         events_id: Number(dataE.events_id),
         description: dataE.description,
         event_date: new Date(dataE.event_date),
+        image: isImage,
       };
-      // https://bita-personal-api.vercel.app/api/
-      //await editBitacora(data);  http://192.168.1.99:3000/api/  "http://localhost:3000/
-      const ENDPOINT = API_URL + "bitacora/events/admin/edit";
+      console.log("DATAADD", dataEE);
+      const ENDPOINT = API_URL + "bitacora/events/create";
+      console.log("ENDPOINT", ENDPOINT);
       const result = await fetch(ENDPOINT, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataEE),
       });
       console.log("result", result);
-      // refetch();
       setVisible1(false);
       setTimeout(() => {
         //navigation.navigation.push('ActivitiesList');
-        navigation.navigate("Bitacoras");
+        navigation.navigate("BitacorasList");
       }, 600);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleOnChange = (bitacoraKey, value) => {
+    //console.log("Selectedtipo_event_id", value);
+  };
+  const handleOnChange1 = (bitacoraKey, value) => {
+    //console.log("SelectedtEvents_id", value);
   };
 
   return (
@@ -165,34 +169,15 @@ export default function ModalEvent(Routes: Props) {
             style={{ backgroundColor: theme.colors.background }}
           >
             <Dialog.Title style={styles.title}>
-              Edit Actividadd: {bitaEvents.bitacora_id}
+              Add Event to Bitacora Id: {bitaEvents.bitacora_id}
             </Dialog.Title>
             <Dialog.ScrollArea style={{ maxHeight: 450, paddingHorizontal: 0 }}>
               <ScrollView>
                 <View style={styles.inputContainerStyle}>
                   <Controller
-                    name="id"
-                    control={control}
-                    defaultValue={bitaEvents.id}
-                    render={({ field: { value } }) => (
-                      <TextInput
-                        label="ID"
-                        testID="input"
-                        mode="outlined"
-                        keyboardType="numeric"
-                        value={String(bitaEvents.id)}
-                        disabled={true}
-                      />
-                    )}
-                  />
-                  {errors.id && <Text>This is required.</Text>}
-                </View>
-
-                <View style={styles.inputContainerStyle}>
-                  <Controller
                     name="bitacora_id"
                     control={control}
-                    defaultValue={bitaEvents.bitacora_id}
+                    defaultValue={bitacora_id}
                     render={({ field: { value } }) => (
                       <TextInput
                         label="BitacoraID"
@@ -203,16 +188,15 @@ export default function ModalEvent(Routes: Props) {
                       />
                     )}
                   />
-                  {errors.bitacora_id && <Text>This is required.</Text>}
+                  {errors.id && <Text>This is required.</Text>}
                 </View>
 
                 <View style={styles.inputContainerStyle}>
-                  {renderLabel()}
                   <Controller
                     name="tipo_event_id"
                     control={control}
                     rules={{ required: true }}
-                    defaultValue={bitaEvents.tipo_event_id}
+                    defaultValue={""}
                     render={({ field: { onChange, onBlur, value, ref } }) => (
                       <Dropdown
                         style={[
@@ -237,8 +221,8 @@ export default function ModalEvent(Routes: Props) {
                           setValue(item.value);
                           setIsFocus(false);
                           setEventId(item.value);
+                          handleOnChange("tipo_event_idSelect", item.value);
                         }}
-                        ref={ref}
                         renderLeftIcon={() => (
                           <FontAwesome
                             style={stylesss.icon}
@@ -253,12 +237,32 @@ export default function ModalEvent(Routes: Props) {
                   {errors.tipo_event_id && <Text>This is required.</Text>}
                 </View>
 
+                <View style={styles.inputContainerStyle}>
+                  <Controller
+                    name="tipo_event_id"
+                    control={control}
+                    defaultValue={String(eventId)}
+                    render={({ field: { onChange, onBlur, value, ref } }) => (
+                      <TextInput
+                        label="TipoEventID"
+                        testID="input"
+                        mode="outlined"
+                        onBlur={onBlur}
+                        value={value}
+                        onChangeText={(value) => onChange(value)}
+                        ref={ref}
+                      />
+                    )}
+                  />
+                  {errors.tipo_event_id && <Text>This is required.</Text>}
+                </View>
+
                 <View style={stylesss.container}>
                   <Controller
                     name="events_id"
                     control={control}
                     rules={{ required: true }}
-                    defaultValue={bitaEvents.events_id}
+                    defaultValue={""}
                     render={({ field: { onChange, onBlur, value, ref } }) => (
                       <Dropdown
                         style={[
@@ -279,10 +283,12 @@ export default function ModalEvent(Routes: Props) {
                         value={value}
                         onFocus={() => setIsFocus(true)}
                         onBlur={() => setIsFocus(false)}
-                        onChange={(value) => {
-                          bitaEvents.events_id(value);
+                        onChange={(item) => {
+                          setValue(item.value);
+                          setEventssId(item.value);
+                          setIsFocus(false);
+                          handleOnChange1("SelectedEvents_id", item.value);
                         }}
-                        ref={ref}
                         renderLeftIcon={() => (
                           <FontAwesome
                             style={stylesss.icon}
@@ -297,12 +303,32 @@ export default function ModalEvent(Routes: Props) {
                   {errors.events_id && <Text>This is required.</Text>}
                 </View>
 
-                <View style={stylesss.inputContainerStyle}>
+                <View style={styles.inputContainerStyle}>
+                  <Controller
+                    name="events_id"
+                    control={control}
+                    defaultValue={String(eventssId)}
+                    render={({ field: { onChange, onBlur, value, ref } }) => (
+                      <TextInput
+                        label="EventsID"
+                        testID="input"
+                        mode="outlined"
+                        onBlur={onBlur}
+                        value={value}
+                        onChangeText={(value) => onChange(value)}
+                        ref={ref}
+                      />
+                    )}
+                  />
+                  {errors.events_id && <Text>This is required.</Text>}
+                </View>
+
+                <View style={styles.inputContainerStyle}>
                   <Controller
                     name="description"
                     control={control}
                     rules={{ required: true }}
-                    defaultValue={bitaEvents.description}
+                    defaultValue={"description"}
                     render={({ field: { onChange, onBlur, value, ref } }) => (
                       <TextInput
                         label="Description"
@@ -323,7 +349,7 @@ export default function ModalEvent(Routes: Props) {
                   <Controller
                     name="event_date"
                     control={control}
-                    defaultValue={String(bitaEvents.event_date)}
+                    defaultValue={String(date)}
                     render={({ field: { onChange, onBlur, value, ref } }) => (
                       <TextInput
                         label="Event Date"
@@ -334,25 +360,7 @@ export default function ModalEvent(Routes: Props) {
                       />
                     )}
                   />
-                  {errors.id && <Text>This is required.</Text>}
-                </View>
-
-                <View style={styles.inputContainerStyle}>
-                  <Controller
-                    name="event_date"
-                    control={control}
-                    defaultValue={String(bitaEvents.event_date)}
-                    render={({ field: { onChange, onBlur, value, ref } }) => (
-                      <TextInput
-                        label="Event Date"
-                        testID="input"
-                        mode="outlined"
-                        value={value}
-                        onChangeText={(value) => onChange(value)}
-                      />
-                    )}
-                  />
-                  {errors.id && <Text>This is required.</Text>}
+                  {errors.event_date && <Text>This is required.</Text>}
                 </View>
 
                 <View style={styles.topRow}>
@@ -376,7 +384,7 @@ export default function ModalEvent(Routes: Props) {
                         mode="contained"
                         onPress={handleSubmit(onSubmit)}
                       >
-                        Modificar
+                        Add
                       </Button>
                     </Subheading>
                   </View>
@@ -417,7 +425,7 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     paddingVertical: 5,
     marginLeft: 5,
-    fontSize: 19,
+    fontSize: 16,
     fontWeight: "bold",
   },
   title1: {

@@ -40,7 +40,6 @@ type Props = {
   event: string;
   tipoevent: string;
   description: string;
-  image: boolean;
 };
 
 type FormData = {
@@ -52,7 +51,6 @@ type FormData = {
   event: string;
   tipoevent: string;
   description: string;
-  image: boolean;
 };
 
 interface IFormInputs {
@@ -317,24 +315,6 @@ export default function ModalEvent(Routes: Props) {
                       />
                     )}
                   />
-                </View>
-
-                <View style={styles.inputContainerStyle}>
-                  <Controller
-                    name="event_date"
-                    control={control}
-                    defaultValue={String(bitaEvents.event_date)}
-                    render={({ field: { onChange, onBlur, value, ref } }) => (
-                      <TextInput
-                        label="Event Date"
-                        testID="input"
-                        mode="outlined"
-                        value={value}
-                        onChangeText={(value) => onChange(value)}
-                      />
-                    )}
-                  />
-                  {errors.id && <Text>This is required.</Text>}
                 </View>
 
                 <View style={styles.inputContainerStyle}>
