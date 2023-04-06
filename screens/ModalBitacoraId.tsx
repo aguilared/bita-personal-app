@@ -105,7 +105,7 @@ export default function ModalBitacoraId(Routes: Props) {
   });
 
   const ENDPOINT = API_URL + "bitacora/events/" + bitacoraID.id;
-  //console.log("ENDPOINT", ENDPOINT);
+  console.log("ENDPOINT", ENDPOINT);
 
   const { status, data, error, isLoading, refetch } = useQuery(
     ["bitacorasttt"],
@@ -197,7 +197,7 @@ export default function ModalBitacoraId(Routes: Props) {
                 <Appbar.Action
                   icon="pencil"
                   onPress={() =>
-                    navigation.navigate("ModalEvent", {
+                    navigation.navigate("ModalBitaEventEdit", {
                       id: item.id,
                       bitacora_id: item.bitacora_id,
                       event_date: item.event_date,
@@ -206,6 +206,8 @@ export default function ModalBitacoraId(Routes: Props) {
                       event: item.event.description,
                       tipoevent: item.tipoEvent.description,
                       description: item.description,
+                      image: item.image,
+                      eventos: bitacoraID.eventos,
                     })
                   }
                 />
@@ -222,7 +224,7 @@ export default function ModalBitacoraId(Routes: Props) {
               <Text
                 style={styles.title1}
               >{`Evento: ${item.events_id} ${item.event.description}`}</Text>
-              
+
               <Text>Image?: {item.image ? "👍" : "👎"} </Text>
 
               <HTMLView

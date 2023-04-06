@@ -20,6 +20,7 @@ import useColorScheme from "../hooks/useColorScheme";
 import ModalScreen from "../screens/ModalScreen";
 import ModalBitacora from "../screens/ModalBitacora";
 import ModalEvent from "../screens/ModalEvent";
+import ModalBitaEventEdit from "../screens/ModalBitaEventEdit";
 import ModalBitaEventsAdd from "../screens/ModalBitaEventsAdd";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import TabOneScreen from "../screens/TabOneScreen";
@@ -73,6 +74,7 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
+
       <Stack.Group
         screenOptions={{
           presentation: "modal",
@@ -95,6 +97,7 @@ function RootNavigator() {
       >
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
+
       <Stack.Group
         screenOptions={{
           presentation: "modal",
@@ -117,6 +120,33 @@ function RootNavigator() {
       >
         <Stack.Screen name="ModalEvent" component={ModalEvent} />
       </Stack.Group>
+
+      <Stack.Group
+        screenOptions={{
+          presentation: "modal",
+          tabBarStyle: {
+            backgroundColor: theme.colors.onTertiaryContainer,
+            paddingBottom: 5,
+          },
+          tabBarLabelStyle: { color: theme.colors.tertiaryContainer },
+          headerStyle: {
+            borderRadius: 3,
+            backgroundColor: "#0067b1",
+          },
+          headerTintColor: "#fff",
+
+          headerTitleStyle: {
+            fontWeight: "bold",
+            fontSize: 20,
+          },
+        }}
+      >
+        <Stack.Screen
+          name="ModalBitaEventEdit"
+          component={ModalBitaEventEdit}
+        />
+      </Stack.Group>
+
       <Stack.Group
         screenOptions={{
           presentation: "modal",
@@ -139,6 +169,7 @@ function RootNavigator() {
       >
         <Stack.Screen name="ModalBitacora" component={ModalBitacora} />
       </Stack.Group>
+
       <Stack.Group
         screenOptions={{
           presentation: "modal",
@@ -164,6 +195,7 @@ function RootNavigator() {
           component={ModalBitaEventsAdd}
         />
       </Stack.Group>
+
       <Stack.Group
         screenOptions={{
           presentation: "modal",

@@ -29,7 +29,8 @@ export type RootStackParamList = {
     event_date: string,
     event: string,
     tipoevent: string,
-    description: string
+    description: string, 
+    image: boolean, 
   ];
   ModalEvents: [
     bitacora_id: number,
@@ -39,6 +40,16 @@ export type RootStackParamList = {
     event: string,
     tipoevent: string,
     description: string
+  ];
+  ModalBitaEventEdit: [
+    bitacora_id: number,
+    tipo_event_id: number,
+    events_id: number,
+    event_date: string,
+    event: string,
+    tipoevent: string,
+    description: string,
+    image: boolean
   ];
 };
 
